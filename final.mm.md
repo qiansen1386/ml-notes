@@ -1,0 +1,298 @@
+<!-- Usage: 安装 markmap 插件 https://marketplace.visualstudio.com/items?itemName=gera2ld.markmap-vscode  -->
+# ML 4702
+
+## Exam
+
+### Layout
+
+- [comp4702FinalExam2021.pdf](./comp4702FinalExam2021.pdf)
+- Timed Assignment: 3hr + 10mins reading + 15-minute submission period
+- 没有 flexible window 了，以Exam timetable 标注时间为准
+
+### 数据
+
+- CSV format
+- 10+ columns
+- 100~9999 rows
+- Real world data with missing fields
+
+### 要求
+
+- 可以用任何库，但要Reference出处
+  - 要解释method和parameters的作用，不能有it works but I.d.k. why
+    - 包括重要的 optional parameter
+- 可以用 WEKA / netica
+- 代码不需要太美观，甚至可以不贴代码，重点在结论和分析。
+- 不需要考虑太多引用和格式
+- 不需要复述课程概念，所有课程概念都可以直接引用。
+  - 使用第三方库要注意联系课程内容，不要太发散。
+
+### Key points
+
+- Pre-processing
+  - 缺失值处理NaN
+  - Remove duplicates
+  - Remove Outliers
+  - lebel数值化
+    - Integer Encoding
+      - Unique label => an unique integer.
+    - One Hot Encoding
+      - Unique label => binary column(1 or 0)
+  - feature scaling(Normalize)
+  - Shuffle
+- Training
+- Testing
+  - Evaluation & Performance
+- Visualization
+
+
+## Theory (TBD)
+
+### Supervised Learning Principles
+- Classification vs Regression
+- Generalization & Model complexity
+  - Underfit
+    - The complexity of the model is lower than data
+    - Loss on both testing /training set is high
+  - Overfit
+    - Model can perfectly fit training data as well as noises
+    - Loss on training set is low, but not true for testing set
+  - To minimize overfitting => Check "**Lowest** validation error"(NOT "elbow")
+- Regularization
+  - Add a penalty term into loss function to limit the complexity of the model and decrease overfitting.(Pull/smooth out a curve towards a linear function)
+- Metrics
+  - Confusion matrix
+  - ROC curve
+- Combining Learner (TBD)
+  - Bagging and Boosting
+  - Prac 9 
+
+
+## Algorithm
+
+### Polynomial(Linear) Regression
+
+- Prac 2-Q1~Q3
+- Params: Polynomial coefficients
+- HP: poly_degree
+- Related
+  - Logistic Regression
+  
+
+#### Useful Code
+```python
+np.polyfit()
+np.polyval()
+scipy.optimization.curve_fit
+sklearn.matrics.r2_score
+
+sklearn.preprocessing.PolynomialFeatures
+```
+
+### EM algo (TBD)
+- [Expectation Maximization](https://zhuanlan.zhihu.com/p/40991784)
+  - E-step
+    - Train the model parameters
+  - M-step
+    - Generate new fields/clustering w/ new model
+  - Until it converged
+    - (all missing fields are filled or clustering become stablized)
+- KNN (EM)
+  - non-parametric
+- Parametric Probabilistic Classification
+  - Prac 2 - Q4
+  - Clustering model similar to K-means
+  - Params: $\mu$ & $\sigma$
+  - HyperP: # of compunents
+
+#### Useful Code
+```python
+sklearn.mixture.GaussianMixture
+```
+
+### Density Estimator(TBD)
+
+- Kernel Density Estimitor(Parametric classification)
+  - Prac 3
+  - non-parametric?
+  - HP: Bandwith(smoothing)
+- Mixture Models
+
+
+### Clustering(TBD)
+
+- K-Mean
+  - Prac 4
+  - K-means clustering and EM with a diagonal covariance matrix with equal terms ( equal circles ) are very similar. You can think of K-Means as removing the variance terms to simplify the EM.
+- Hieracical(dendrogram)
+- Mean-shift
+- 
+#### Useful Code
+
+```python
+from scipy.cluster import hierarchy
+links = hierarchy.linkage(points, method='single', metric='cityblock')
+dn = hierarchy.dendrogram(links, labels=labels)
+```
+
+### Dimensionality Reduction(TBD)
+
+- PCA
+  - Prac 5
+- LDA
+- t-SNE
+  - Prac 5
+
+
+### - NeuralNet
+
+- MLP
+  - Prac 6
+- CNN
+  - Prac7
+
+### SVM
+- Prac8
+  - Weka
+  - HP: 一般用 grid-search 暴力尝试不同组合
+    - C -> controls the regulation term(How many error can we tolerate, controls the margin in an indirect manner)
+      - $\in [2^{-5},2^{15} ]$
+    - Kernel:
+      - RBF: gamma-> $\in [2^{-5},2^3]$
+      - Poly: d -> degree (0~8)
+
+### Decision Tree & Random Forest
+[StatQuest: Random Forests Part](https://www.youtube.com/watch?v=J4Wdy0Wc_xQ)
+ - `gini`
+ - Homework 9 & Prac 
+
+### Graphical Model
+- Benefit:
+  - **Transparent**, provide reasoning
+  - **Efficient** algorithm exist -> a chain of bayes rules
+- BayesianNet
+  - Prac 10
+    - Netica
+  - We assume some of the variables are independent, some are dependent (shown as edges)
+
+### Bayesian Inference
+- Gaussian Process Regression
+  - https://zhuanlan.zhihu.com/p/60987749
+  - https://zhuanlan.zhihu.com/p/75589452
+  - Prac 11
+  - Non-parametic
+  - HP: Distance Kernel
+    - RBF Kernel: l, N
+      - l 越大，图像越平滑
+    - Periodic Kernel, etc. see [The Kernel Cookbook](https://www.cs.toronto.edu/~duvenaud/cookbook/)
+  - Steps: 
+    1. Define a kernel to compute distance matrix
+    2. Sample a prior
+    3. Update the prior according to data
+    4. Plot the posterior
+       - new **mean** is the predicted function
+       - new **cov_mtx** can be used to draw the confident interval on every point of `t`
+
+```python
+scipy.spatial.distance.cdist(p, q,'sqeuclidean')
+from sklearn.metrics.pairwise import rbf_kernel
+np.random.default_rng().multivariate_normal(mean, cov, size=5)
+plt.fill_between(linspace, mean + post_std, mean - post_std, alpha = 0.5)
+```
+
+## Python
+
+### Imports
+
+```python
+import numpy as np
+import pandas as pd
+from matplotlib import pyplot as plt
+
+from sklearn.model_selection import train_test_split 
+from sklearn.impute import SimpleImputer
+from sklearn.metrics import confusion_matrix
+from sklearn.linear_model import LinearRegression
+from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+```
+
+### Data Loading
+
+pandas is the fastest
+np.loadtxt is most basic
+np.genfromtxt is safer when it comes to missing data.
+There is also `import csv`, but too tedius to use
+
+```python
+df=pd.read_csv('myfile.csv', sep=',',header=None)
+print(df.values)
+# array([[ 1. ,  2. ,  3. ],
+#        [ 4. ,  5.5,  6. ]])
+arr=np.loadtxt('myfile.csv',delimiter=',')
+arr=np.genfromtxt('myfile.csv',delimiter=',')
+# array([[ 1. ,  2. ,  3. ],
+#        [ 4. ,  5.5,  6. ]])
+```
+
+### Pre-processing
+
+TO be done
+
+### Plot
+```python
+import matplotlib.pyplot as plt
+# Create subplot
+fig, ax = plt.subplots(figsize=(8,6))
+fig, ax = plt.subplots(nRows, nCols, figsize=(8,6))
+fig = plt.figure(figsize=(3, 3), dpi=120)
+ax = fig.add_axes([0, 0, 1, 1])
+# plot
+ax.scatter(X, Y,marker='+')
+ax.plot(X_line,Y_line,'k',label='Text to show in legend')
+ax.vlines(0,-0.1,20.1,linestyles='dotted')
+ax.hlines(0,-0.1,20.1,linestyles='solid')
+# histogram
+counts, bins = np.histogram(data)
+plt.hist(bins[:-1], bins, weights=counts)
+# Show image
+plt.imshow(image_matrix)
+
+# Label & legend
+plt.legend()
+ax.set_xlabel("X")
+ax.set_ylabel("y")
+ax.set_title('Title of subplot')
+
+# fine tune axis
+# https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.axis.html
+ax.set_ylim((-pi-1,pi+1))
+ax.set_xlim((0,5))
+ax.set(xlim=(xmin, xmax), ylim=(ymin, ymax))
+ax.set_xticks([0, 0.5, 1, 1.5, 2])
+ax.set_yticks([0, 0.5, 1, 1.5, 2])
+ax.set_aspect('equal') # square plot
+
+# figure outcome
+plt.savefig("file.png",dpi=300, format='png',bbox_inches='tight')
+plt.show()
+```
+
+### Numpy
+
+```python
+np.zeros((r,c))
+np.arrange()
+np.array(python_list)
+np.cov(arr)#=> cov matrix
+np.ceil()
+np.floor()
+np.log2(X)
+np.std() # => std deviation
+ndarray.tolist() #=> to python list
+np.random.normal()
+line = np.linspace(-6, 6, num=60)
+np.linalg.inv() # inverse of a matrix.
+np.dot()
+np.matmul() # matrix multiply
+```
