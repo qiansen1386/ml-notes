@@ -18,12 +18,12 @@
 
 ### 要求
 
-- 可以用任何库，但要Reference出处
-  - 要解释method和parameters的作用，不能有it works but I.d.k. why
+- 可以用任何库，但要 Reference 出处
+  - 要解释 method 和 parameters 的作用，不能有 it works but I.d.k. why
     - 包括重要的 optional parameter
 - 可以用 WEKA / netica
 - 代码不需要太美观，甚至可以不贴代码，重点在结论和分析。
-- 不需要考虑太多引用和格式
+- 不需要考虑太多引用和格式。尽量不要有 spelling 或 grammartical error
 - 不需要复述课程概念，所有课程概念都可以直接引用。
   - 使用第三方库要注意联系课程内容，不要太发散。
 
@@ -262,6 +262,17 @@ arr=np.genfromtxt('myfile.csv',delimiter=',')
 
 TO be done
 
+### Models
+
+```python
+```
+
+### Metrics
+
+```python
+sklearn.metrics.roc_auc_score
+```
+
 ### Plot
 ```python
 import matplotlib.pyplot as plt
@@ -300,6 +311,9 @@ ax.set_aspect('equal') # square plot
 plt.savefig("file.png",dpi=300, format='png',bbox_inches='tight')
 plt.show()
 ```
+
+
+
 
 ### Numpy
 
