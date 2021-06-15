@@ -61,10 +61,33 @@
 - Regularization
   - Add a penalty term into loss function to limit the complexity of the model and decrease overfitting.(Pull/smooth out a curve towards a linear function)
 - Metrics
-  - Confusion matrix
-  - ROC curve
+  - Regression
+    - (unadjusted)**R-Squared** $R^2= Explained\ variation / Total\ variation$
+    - **SSE** sum of squared error $SSE(y,\hat{y})=\sum^n_i{(y_i-\hat{y_i})^2}$
+    - **RMSE** Root Mean Squared Error$RMSE(y,\hat{y})=\sqrt{\frac{1}{n}\sum^n_i{(y_i-\hat{y_i})^2}}$
+      - **unbiased** RMSE use **df**(degree of freedom) instead of **N**
+  - Classification
+    - Confusion matrix
+    - $Accuracy = (TP+TN)/(TP+FP+FN+TN)$
+      - If classification problems is well balanced and not skewed or No class imbalance
+      - 反例: 被车撞的概率，一直说No也有99%的正确率。
+    - $Precision = (TP)/(TP+FP)$
+      - 所有我们标示为阳性的记录里有多少是真阳性
+      - If we want to be very sure about what we say, like creditcard fraud detection -> false alert leads to customer complaints
+      - Caveat: High precision = Low sensitivity
+      - Related: $Specificity = (TN)/(TN+FP)$
+        - 所有阴性判断中有多少是真的
+    - $Recall = (TP)/(TP+FN)$ 
+      - 所有实际为阳性的记录中有多少被我们识别了
+      - If we want to capture as many positive as possible.
+      - 如果我盲目返回 Positive，Recall 会是 100%（某种程度上反应 Sensitivity，需要和Precision 平衡一下）
+    - $F_1=2\times\frac{precision\times recall}{precision + recall}$
+      - (用来平衡precision和sensitivity)
+    - ROC curve
+      - Compare the True Positive Rate vs False Positive Rate($Sensitivity$ vs $1-Specificity$)
+      - 用来对比和决定**最佳阈值**应该设置在哪里，一个 ROC 曲线中的每一个点都有一个F score。AUC相当于对这些 F 取了平均。所以如果只是用来衡量算法本身的好坏最好用 $F_1$ score
 - Combining Learner (TBD)
-  - Bagging and Boosting
+  - Bagging and Boosting (TBD)
   - Prac 9 
 
 
