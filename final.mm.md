@@ -123,7 +123,7 @@ sklearn.matrics.r2_score
 sklearn.preprocessing.PolynomialFeatures
 ```
 
-### EM algo (TBD)
+### EM algo
 - [Expectation Maximization](https://zhuanlan.zhihu.com/p/40991784)
   - E-step
     - Train the model parameters
@@ -134,23 +134,22 @@ sklearn.preprocessing.PolynomialFeatures
 - KNN (EM)
   - non-parametric
 - Parametric Probabilistic Classification
+  - Gaussian Mixture Model (GMM)尝试找出一个模型（通常为联合正态分布）和对应的 parameters 来描述我们已有的模型
   - Prac 2 - Q4
   - Clustering model similar to K-means
   - Params: $\mu$ & $\sigma$
   - HyperP: # of compunents
+- Kernel Density Estimitor(Parametric classification)
+  - 有点像histogram只不过累积的不是小方格而是Kernel function。组合起来可能太曲里拐弯的，所以需要熨平一点smoothing。
+  - Prac 3
+  - non-parametric
+  - HP: Bandwith(smoothing)
+
 
 #### Useful Code
 ```python
 sklearn.mixture.GaussianMixture
 ```
-
-### Density Estimator(TBD)
-
-- Kernel Density Estimitor(Parametric classification)
-  - Prac 3
-  - non-parametric?
-  - HP: Bandwith(smoothing)
-- Mixture Models
 
 
 ### Clustering(TBD)
