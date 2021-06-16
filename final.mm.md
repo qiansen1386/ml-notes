@@ -152,14 +152,22 @@ sklearn.mixture.GaussianMixture
 ```
 
 
-### Clustering(TBD)
+### Clustering
 
 - K-Mean
   - Prac 4
   - K-means clustering and EM with a diagonal covariance matrix with equal terms ( equal circles ) are very similar. You can think of K-Means as removing the variance terms to simplify the EM.
-- Hieracical(dendrogram)
+  - K-Means有两个缺点
+    - 需要**先知道k值**，如果k值取得不好，效果可能很差。
+    - k-means收敛到局部最优，所以这个算法优化结果**依赖于初始点选取**
+  - 因为K-means计算点点之间的欧氏距离，所以跟RBF核颇有渊源。
 - Mean-shift
-- 
+  - 是已知聚类标签的情况下寻找最佳中心点的算法[知乎详情](https://zhuanlan.zhihu.com/p/31183313)
+    - 相当于先通过kernel函数一般是RBF进行图像处理（理解为blur）
+    - 然后在blur之后的图像上进行梯度上升Gradient Ascend。
+- Hieracical(dendrogram)
+
+
 #### Useful Code
 
 ```python
