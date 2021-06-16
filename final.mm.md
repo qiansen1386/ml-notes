@@ -31,8 +31,18 @@
 
 - Pre-processing
   - 缺失值处理NaN
+    - 有时序的 sample 可以
+      - 按上下文插值（Interpolation）
+        - 复制上一列的信息(Last observation carry forward)
+        - 根据前后两列求平均数
+      - 用已知数据估计一个Regression模型然后算未知的部分（Extrapolation）
+    - 数值类型的可以插中位数或平均数。
+      - replacement by mean(更关心平均)
+      - replacement by median(outlier 多)
+    - 通过跟其他列的相关性逆推（Extrapolation）
   - Remove duplicates
   - Remove Outliers
+    - 也可以通过加强bias的方式减小outlier对模型的影响。比如选用强模型
   - lebel数值化
     - Integer Encoding
       - Unique label => an unique integer.
