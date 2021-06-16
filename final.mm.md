@@ -55,6 +55,8 @@
   - Evaluation & Performance
 - Visualization
 
+### Steps
+
 
 ## Theory (TBD)
 
@@ -176,13 +178,25 @@ links = hierarchy.linkage(points, method='single', metric='cityblock')
 dn = hierarchy.dendrogram(links, labels=labels)
 ```
 
-### Dimensionality Reduction(TBD)
+### Dimensionality Reduction
 
 - PCA
   - Prac 5
-- LDA
-- t-SNE
+- LDA(TBD)
+- [t-SNE](https://zhuanlan.zhihu.com/p/103261749)
+  - t-SNE的降维关键：把高纬度的数据点之间的距离转化为高斯分布概率。
+  - 高纬度相似度用高斯，低纬度用t分布，然后设置一个惩罚函数（KL散度(Kullback-Leibler divergence)），就实现了x降低维度但是保留一定局部特征的方法。
   - Prac 5
+  - 与SNE的区别，通过t分布的长尾特性，解决了传统SNE的拥挤问题。
+  - Parameters
+    - n_components 低维空间的维度
+    - perpexity 混乱度，优化过程中考虑的临近点的数量，一般选30
+    - early_exaggeration 表示嵌入空间簇间距的大小，默认为12，越大簇和簇之间的间距越大 
+    - learning_rate 学习率，控制梯度下降的快慢默认200(100~1000)
+    - n_iter 迭代次数默认1000 (>250)
+    - init `random` 或`pca` 是否先用PCA初始化，也可以提供数组(n_samples, n_target)
+    - method 优化方法，默认用`barnets_hut`一种模拟算法O(NlogN)，也可以选`exact`计算标准的KL散度O(N^2)，误差小
+    - random_state 随机数种子，因为loss函数不是凸函数，存在局部最佳，不同的随机函数会产生不同的结果。可以多次尝试选择最小的loss
 
 
 ### - NeuralNet
@@ -301,6 +315,7 @@ TO be done
 ```python
 sklearn.metrics.roc_auc_score
 sklearn.metrics.f1_score(y_true, y_pred, labels=None)
+sklearn.metrics.r2_score(y_true, y_pred, sample_weight=None) # 1- SSE/SST
 ```
 
 ### Plot
@@ -326,6 +341,8 @@ counts, bins = np.histogram(data)
 plt.hist(bins[:-1], bins, weights=counts)
 # Image should be a numeric matrix
 plt.imshow(image_matrix)
+# show matrix == imshow(matrix, interpolation="none")
+plt.matshow(matrix, interpolation="none")
 ```
 
 #### Labels & axes
@@ -352,8 +369,6 @@ plt.savefig("file.png",dpi=300, format='png',bbox_inches='tight')
 plt.show()
 ```
 
-
-
 ### Numpy
 
 #### methods
@@ -371,6 +386,7 @@ np.matmul() # matrix multiply
 ```
 
 #### array
+
 ##### Create ndarray
 ```python
 np.zeros((r,c), dtype=float)
@@ -380,10 +396,6 @@ np.array(python_list) # python list to ndarray
 ndarray.tolist() # ndarray to python list
 # 2d
 np.arange(100).reshape((-1,2)).shape # (50,2), -1 means auto
-# concat and stacking
-vstack
-hstack
-np.concat
 ```
 
 ##### play with arrays
