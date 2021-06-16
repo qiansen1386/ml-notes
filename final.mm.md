@@ -18,12 +18,12 @@
 
 ### 要求
 
-- 可以用任何库，但要Reference出处
-  - 要解释method和parameters的作用，不能有it works but I.d.k. why
+- 可以用任何库，但要 Reference 出处
+  - 要解释 method 和 parameters 的作用，不能有 it works but I.d.k. why
     - 包括重要的 optional parameter
 - 可以用 WEKA / netica
 - 代码不需要太美观，甚至可以不贴代码，重点在结论和分析。
-- 不需要考虑太多引用和格式
+- 不需要考虑太多引用和格式。尽量不要有 spelling 或 grammartical error
 - 不需要复述课程概念，所有课程概念都可以直接引用。
   - 使用第三方库要注意联系课程内容，不要太发散。
 
@@ -85,7 +85,8 @@
       - (用来平衡precision和sensitivity)
     - ROC curve
       - Compare the True Positive Rate vs False Positive Rate($Sensitivity$ vs $1-Specificity$)
-      - 用来对比和决定**最佳阈值**应该设置在哪里，一个 ROC 曲线中的每一个点都有一个F score。AUC相当于对这些 F 取了平均。所以如果只是用来衡量算法本身的好坏最好用 $F_1$ score
+      - 用来对比和决定**最佳阈值**应该设置在哪里，一个 ROC 曲线中的每一个点都有一个F score。
+      - AUC相当于对这些 F 取了平均。所以如果只是用来衡量算法本身的好坏最好用 $F_1$ score
 - Combining Learner (TBD)
   - Bagging and Boosting (TBD)
   - Prac 9 
@@ -262,15 +263,30 @@ arr=np.genfromtxt('myfile.csv',delimiter=',')
 
 TO be done
 
-### Plot
+### Models
+
 ```python
-import matplotlib.pyplot as plt
-# Create subplot
+```
+
+### Metrics
+
+```python
+sklearn.metrics.roc_auc_score
+```
+
+### Plot
+
+#### subplot
+```python
 fig, ax = plt.subplots(figsize=(8,6))
 fig, ax = plt.subplots(nRows, nCols, figsize=(8,6))
 fig = plt.figure(figsize=(3, 3), dpi=120)
 ax = fig.add_axes([0, 0, 1, 1])
-# plot
+```
+
+#### drawing
+
+```python
 ax.scatter(X, Y,marker='+')
 ax.plot(X_line,Y_line,'k',label='Text to show in legend')
 ax.vlines(0,-0.1,20.1,linestyles='dotted')
@@ -278,10 +294,12 @@ ax.hlines(0,-0.1,20.1,linestyles='solid')
 # histogram
 counts, bins = np.histogram(data)
 plt.hist(bins[:-1], bins, weights=counts)
-# Show image
+# Image should be a numeric matrix
 plt.imshow(image_matrix)
+```
 
-# Label & legend
+#### Labels & axes
+```python
 plt.legend()
 ax.set_xlabel("X")
 ax.set_ylabel("y")
@@ -294,28 +312,105 @@ ax.set_xlim((0,5))
 ax.set(xlim=(xmin, xmax), ylim=(ymin, ymax))
 ax.set_xticks([0, 0.5, 1, 1.5, 2])
 ax.set_yticks([0, 0.5, 1, 1.5, 2])
-ax.set_aspect('equal') # square plot
+ax.set_aspect('equal') # square axes
+```
 
-# figure outcome
+#### Save Image
+
+```python
 plt.savefig("file.png",dpi=300, format='png',bbox_inches='tight')
 plt.show()
 ```
 
+
+
 ### Numpy
 
+#### methods
 ```python
-np.zeros((r,c))
-np.arrange()
-np.array(python_list)
-np.cov(arr)#=> cov matrix
 np.ceil()
 np.floor()
 np.log2(X)
 np.std() # => std deviation
-ndarray.tolist() #=> to python list
+np.cov(arr)#=> cov matrix
 np.random.normal()
 line = np.linspace(-6, 6, num=60)
 np.linalg.inv() # inverse of a matrix.
 np.dot()
 np.matmul() # matrix multiply
+```
+
+#### array
+##### Create ndarray
+```python
+np.zeros((r,c), dtype=float)
+# np.ones np.eye
+np.arange(N).reshape(shape)
+np.array(python_list) # python list to ndarray
+ndarray.tolist() # ndarray to python list
+# 2d
+np.arange(100).reshape((-1,2)).shape # (50,2), -1 means auto
+# concat and stacking
+vstack
+hstack
+np.concat
+```
+
+##### play with arrays
+```python
+A = np.array([1,2])
+B = np.array([3,4])
+np.concatenate((A,B))
+# array([1, 2, 3, 4])
+np.vstack((A,B)) # <=> vsplit()
+# array([[1, 2],
+#        [3, 4]])
+np.hstack((A,B)) # <=> hsplit()
+# array([[1, 2, 3, 4]])
+```
+
+##### Properties
+
+```python
+arr = np.array([[3,4,6], 
+                [0,8,1]], dtype = np.int16)
+arr.size # 6 # of items
+arr.ndim # 2 # of dimension
+arr.shape # (2, 3)
+arr.itemsize # 2, returns the size (in bytes) of each element of a NumPy array.
+arr.dtype #dtype('int16')
+```
+
+##### Increase dimension
+
+```python
+x = np.array([1, 2])
+x.shape
+# (2,)
+# 4 ways to expand dimensions
+np.expand_dims(x, axis=0)
+# ==> x[np.newaxis, :] 
+np.expand_dims(x, axis=1)
+# ==>  x[:, np.newaxis]
+# Or Reshape
+np.arange(1000).reshape((-1, 2))
+```
+
+##### Decrease dimension
+
+```python
+# squeeze
+x = np.array([[[0], [1], [2]]])
+x.shape # (1, 3, 1)
+np.squeeze(x).shape # (3,)
+np.squeeze(x, axis=0).shape # (3, 1)
+np.squeeze(x, axis=1).shape # error : size of selected axis != 1
+np.squeeze(x, axis=2).shape # (1, 3)
+# flatten 好像是只作用于 2d 数组
+a = np.array([[1,2], [3,4]])
+a.flatten() # array([1, 2, 3, 4]) ,default is row major
+# == a.reshape(-1)
+a.flatten(order='F') # array([1, 3, 2, 4]) order = column major
+a.reshape(-1,1) # flatten into into column vector 
+# == a.reshape(-1)[np.newaxis, :].T 
 ```
