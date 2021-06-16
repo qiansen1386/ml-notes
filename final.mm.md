@@ -57,6 +57,26 @@
 
 ### Steps
 
+1. Load Dataset
+2. EDA (missing value, units, scale)
+   - scatterplot / histograms
+   - Spot candidates labels for classification
+   - throw away some columns
+   - data imputation
+     - mean or median interpolation
+     - regression model(find correlation first)
+3. PCA -> t-SNE -> scatterplot -> find **k**
+   - PCA -> eigenvalue(% varience explained)eigenvectors, how many PCs to use
+4. clustering(如果没有label) -> classifier
+   1. classifier: probablistic, kNN, MLP, SVM, decision tree
+5. Analysis
+   1. model parameter
+   2. learning curve
+   3. multiple runs
+   4. performance
+       - % correct
+       - confusion matrix
+       - f1_score or AUC
 
 ## Theory (TBD)
 
@@ -303,7 +323,38 @@ arr=np.genfromtxt('myfile.csv',delimiter=',')
 
 ### Pre-processing
 
-TO be done
+#### Spot NaN
+```python
+# if contains NaN in an array
+s = pd.Series([2,3,np.nan,7,"The Hobbit"])
+s.isnull().values.any()
+# if contains NaN in a DataFrame
+df.isnull().sum()
+# 0    3 <- meaning column 1 have 3 nulls 
+# 1    0
+```
+
+#### Check Correlation
+```python
+corr = dataframe.corr()
+corr.style.background_gradient(cmap='coolwarm')
+
+# Use Seaborn
+# https://seaborn.pydata.org/generated/seaborn.pairplot.html
+import seaborn as sns
+iris = sns.load_dataset("iris")
+sns.pairplot(iris, hue="species", height=2.5)
+g = sns.pairplot(iris, hue="species", palette="Set2", diag_kind="kde", height=2.5)
+```
+
+#### imputation
+```python
+# df is a pandas DataFrame
+df.fillna(constant)
+
+
+
+```
 
 ### Models
 
