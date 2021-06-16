@@ -300,6 +300,7 @@ TO be done
 
 ```python
 sklearn.metrics.roc_auc_score
+sklearn.metrics.f1_score(y_true, y_pred, labels=None)
 ```
 
 ### Plot
@@ -321,6 +322,7 @@ ax.vlines(0,-0.1,20.1,linestyles='dotted')
 ax.hlines(0,-0.1,20.1,linestyles='solid')
 # histogram
 counts, bins = np.histogram(data)
+# plt.hist(x, bins = number of bins)
 plt.hist(bins[:-1], bins, weights=counts)
 # Image should be a numeric matrix
 plt.imshow(image_matrix)
