@@ -203,9 +203,20 @@ dn = hierarchy.dendrogram(links, labels=labels)
       - Poly: d -> degree (0~8)
 
 ### Decision Tree & Random Forest
+- Homework 9 & Prac 
 [StatQuest: Random Forests Part](https://www.youtube.com/watch?v=J4Wdy0Wc_xQ)
- - `gini`
- - Homework 9 & Prac 
+- `gini`
+  - To measure the impurity
+- Involved into 
+ - [Random Forest](https://youtu.be/J4Wdy0Wc_xQ?t=14)
+ - [Adaboost](https://www.youtube.com/watch?v=LsK-xG1cLYA)
+ - Gradient Boosting
+   - xgboost
+- 一般没有直接用决策树的，都是集成学习(Ensemble Learning)的一部分
+  - 三个臭皮匠赛过诸葛亮。需要每个子决策树尽可能准(accurate)，但尽可能不一样(diverse)
+  - 集成学习主要是有几种方法bagging, boosting, stacking等
+    - bagging - Random forest 通过boostraping（数据集小）或随机分组（数据集大）训练不一样的完整子树，然后投票，综合意见
+    - boosting - Adaboost 通过训练一堆二叉弱分类器(stump)，每个stump有自己的weight（不是一人一票了）。
 
 ### Graphical Model
 - Benefit:
