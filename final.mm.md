@@ -260,6 +260,14 @@ arr=np.genfromtxt('myfile.csv',delimiter=',')
 
 ### Pre-processing
 
+#### describe data
+
+```python
+print(df.columns)
+df.info()
+df.describe()
+```
+
 #### Spot NaN
 ```python
 # if contains NaN in an array
@@ -269,7 +277,30 @@ s.isnull().values.any()
 df.isnull().sum()
 # 0    3 <- meaning column 1 have 3 nulls 
 # 1    0
+
+# Scikit learn
+from sklearn.impute import SimpleImputer
+imp = SimpleImputer(missing_values=np.nan, strategy='mean')
+# most_frequent
+imp.fit_transform(df)
+
+# mean of 2 nearest neighbor
+from sklearn.impute import KNNImputer
+imputer = KNNImputer(n_neighbors=2, weights="uniform")
+imputer.fit_transform(X)
 ```
+
+
+#### outliers
+
+```python
+num_cols = ['bra_size','hips','quality','shoe_size','size','waist']
+plt.figure(figsize=(18,9))
+df[num_cols].boxplot()
+plt.title("Numerical variables in Modcloth dataset", fontsize=20)
+plt.show()
+```
+Manually remove the outliers according to IQR
 
 #### Check Correlation
 ```python
@@ -288,8 +319,6 @@ g = sns.pairplot(iris, hue="species", palette="Set2", diag_kind="kde", height=2.
 ```python
 # df is a pandas DataFrame
 df.fillna(constant)
-
-
 
 ```
 
