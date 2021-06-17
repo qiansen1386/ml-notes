@@ -157,9 +157,11 @@ dn = hierarchy.dendrogram(links, labels=labels)
 ### - NeuralNet
 
 - MLP
-  - Prac 6
+  - The main issue is that these very wide, shallow networks are very good at **memorization**, but not so good at **generalization**.
+  - The advantage of multiple layers is that they can learn features at various levels of abstraction
 - CNN
-  - Prac7
+  - Mostly for Image recognition
+  - Convolution -> pooling -> Convolution -> pooling etc
 
 ### SVM
 - Prac8
