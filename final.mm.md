@@ -110,8 +110,20 @@ sklearn.mixture.GaussianMixture
   - 是已知聚类标签的情况下寻找最佳中心点的算法[知乎详情](https://zhuanlan.zhihu.com/p/31183313)
     - 相当于先通过kernel函数一般是RBF进行图像处理（理解为blur）
     - 然后在blur之后的图像上进行梯度上升Gradient Ascend。
-- Hieracical(dendrogram)
-
+- Hieracical 层次聚类(dendrogram)
+  - dendro -> 艹， dendro slime 艹史莱姆
+  - 先从离得近的草根开始聚拢，再比较簇和簇之间的距离，逐级上升直至合并为一个大簇。合并的早晚就反应了亲疏的远近。
+  - 根据簇和簇之间距离的不同计算方法可以分为3种 Linkage
+    - Single Linkage 簇和簇的最短距离（离的最近的数据点之间的距离）
+      - 容易受到极端值影响，太容易链接到一起。
+    - Complete Linkage 取最远距离
+      - 太不容易链接到一起
+    - Average Linkage 取自己簇的每个点到对方簇的每个点的距离然后取平均，计算量巨大。
+  - 问题是
+    - 可能会形成一个连一个的单链，形不成分簇的效果（尤其是single linkage）
+    - 计算量很大$O(n^2)$
+  - 优点
+    - 不需要指定K
 
 #### Useful Code
 
