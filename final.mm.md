@@ -42,16 +42,13 @@
       - Compare the True Positive Rate vs False Positive Rate($Sensitivity$ vs $1-Specificity$)
       - 用来对比和决定**最佳阈值**应该设置在哪里，一个 ROC 曲线中的每一个点都有一个F score。
       - AUC相当于对这些 F 取了平均。所以如果只是用来衡量算法本身的好坏最好用 $F_1$ score
-- Combining Learner (TBD)
-  - Bagging and Boosting (TBD)
-  - Prac 9 
-
+### Unsupervised Learning -> See Clustering algorithms
+Reinforcement learning is out of scope.
 
 ## Algorithm
 
 ### Polynomial(Linear) Regression
 
-- Prac 2-Q1~Q3
 - Params: Polynomial coefficients
 - HP: poly_degree
 - Related
@@ -76,17 +73,15 @@ sklearn.preprocessing.PolynomialFeatures
     - Generate new fields/clustering w/ new model
   - Until it converged
     - (all missing fields are filled or clustering become stablized)
-- KNN (EM)
+- kNN (EM)
   - non-parametric
 - Parametric Probabilistic Classification
   - Gaussian Mixture Model (GMM)尝试找出一个模型（通常为联合正态分布）和对应的 parameters 来描述我们已有的模型
-  - Prac 2 - Q4
   - Clustering model similar to K-means
   - Params: $\mu$ & $\sigma$
   - HyperP: # of compunents
 - Kernel Density Estimitor(Parametric classification)
   - 有点像histogram只不过累积的不是小方格而是Kernel function。组合起来可能太曲里拐弯的，所以需要熨平一点smoothing。
-  - Prac 3
   - non-parametric
   - HP: Bandwith(smoothing)
 
@@ -100,7 +95,6 @@ sklearn.mixture.GaussianMixture
 ### Clustering
 
 - K-Mean
-  - Prac 4
   - K-means clustering and EM with a diagonal covariance matrix with equal terms ( equal circles ) are very similar. You can think of K-Means as removing the variance terms to simplify the EM.
   - K-Means有两个缺点
     - 需要**先知道k值**，如果k值取得不好，效果可能很差。
@@ -136,14 +130,13 @@ dn = hierarchy.dendrogram(links, labels=labels)
 ### Dimensionality Reduction
 
 - PCA
-  - Prac 5
+  - eigenvector
 - LDA(TBD)
 - [t-SNE](https://zhuanlan.zhihu.com/p/103261749)
   - t-SNE的降维关键：把高纬度的数据点之间的距离转化为高斯分布概率。
   - 高纬度相似度用高斯，低纬度用t分布，然后设置一个惩罚函数（KL散度(Kullback-Leibler divergence)），就实现了x降低维度但是保留一定局部特征的方法。
-  - Prac 5
   - 与SNE的区别，通过t分布的长尾特性，解决了传统SNE的拥挤问题。
-  - Parameters
+  - Parameters(Scikit Learn)
     - n_components 低维空间的维度
     - perpexity 混乱度，优化过程中考虑的临近点的数量，一般选30
     - early_exaggeration 表示嵌入空间簇间距的大小，默认为12，越大簇和簇之间的间距越大 
@@ -164,8 +157,6 @@ dn = hierarchy.dendrogram(links, labels=labels)
   - Convolution -> pooling -> Convolution -> pooling etc
 
 ### SVM
-- Prac8
-  - Weka
   - HP: 一般用 grid-search 暴力尝试不同组合
     - C -> controls the regulation term(How many error can we tolerate, controls the margin in an indirect manner)
       - $\in [2^{-5},2^{15} ]$
@@ -173,8 +164,7 @@ dn = hierarchy.dendrogram(links, labels=labels)
       - RBF: gamma-> $\in [2^{-5},2^3]$
       - Poly: d -> degree (0~8)
 
-### Decision Tree & Random Forest
-- Homework 9 & Prac 
+### Decision Tree & Random Forest 
 [StatQuest: Random Forests Part](https://www.youtube.com/watch?v=J4Wdy0Wc_xQ)
 - `gini`
   - To measure the impurity
@@ -194,7 +184,6 @@ dn = hierarchy.dendrogram(links, labels=labels)
   - **Transparent**, provide reasoning
   - **Efficient** algorithm exist -> a chain of bayes rules
 - BayesianNet
-  - Prac 10
     - Netica
   - We assume some of the variables are independent, some are dependent (shown as edges)
 
@@ -202,7 +191,6 @@ dn = hierarchy.dendrogram(links, labels=labels)
 - Gaussian Process Regression
   - https://zhuanlan.zhihu.com/p/60987749
   - https://zhuanlan.zhihu.com/p/75589452
-  - Prac 11
   - Non-parametic
   - HP: Distance Kernel
     - RBF Kernel: l, N
